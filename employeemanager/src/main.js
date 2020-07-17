@@ -3,13 +3,24 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// Checking if auth has changed
+import firebase from 'firebase';
+import './components/firebaseInit'
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
-})
+// Checking if auth has changed
+let app;
+firebase.auth().onAuthStateChanged(user => {
+  if(!app) {
+    app = new Vue({
+      el: '#app',
+      router,
+      components: { App },
+      template: '<App/>'
+    })
+  }
+});
+
+
+
